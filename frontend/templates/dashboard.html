@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neostats Document Intelligence - Dashboard</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Neostats Document Intelligence Platform</h1>
+        <p>AI Document Extraction & Deterministic Financial Validation</p>
+    </div>
+    <div class="container">
+        <div class="card">
+            <h2>Process Financial Document</h2>
+            <form id="upload-form">
+                <input type="file" id="file-input" required accept=".pdf,.jpg,.jpeg,.png">
+                <select id="doc-type">
+                    <option value="AUTO_DETECT">⚡ Auto-Detect Document Type</option>
+                    <option value="INVOICE">📄 Invoice</option>
+                    <option value="BALANCE_SHEET">📊 Balance Sheet</option>
+                    <option value="PROFIT_AND_LOSS">📈 Profit & Loss</option>
+                    <option value="CASH_FLOW">💵 Cash Flow</option>
+                </select>
+                <button type="submit" class="btn">Process Document</button>
+            </form>
+        </div>
+    </div>
+    <script src="../static/js/app.js"></script>
+</body>
+</html>

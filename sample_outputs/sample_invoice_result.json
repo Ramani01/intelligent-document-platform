@@ -1,0 +1,176 @@
+{
+  "document_name": "batch1-1109.jpg",
+  "document_type": "INVOICE",
+  "processing_status": "COMPLETED",
+  "file_validation": {
+    "is_valid": true,
+    "file_name": "batch1-1109.jpg",
+    "file_type": "JPG",
+    "file_size_bytes": 217666,
+    "page_count": 1,
+    "is_native_pdf": false,
+    "errors": []
+  },
+  "extracted_data": {
+    "header": {
+      "invoice_number": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      },
+      "issue_date": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      },
+      "due_date": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      },
+      "payment_terms": null,
+      "po_number": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      },
+      "customer_account": null,
+      "currency": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      },
+      "carrier": null
+    },
+    "vendor": {
+      "name": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      },
+      "address": null,
+      "tax_id": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      },
+      "phone": null,
+      "email": null
+    },
+    "buyer": {
+      "name": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      },
+      "address": null,
+      "tax_id": null,
+      "phone": null,
+      "email": null
+    },
+    "consignee": {
+      "name": null,
+      "address": null,
+      "tax_id": null,
+      "phone": null,
+      "email": null
+    },
+    "line_items": [],
+    "financials": {
+      "subtotal": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      },
+      "cgst": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      },
+      "sgst": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      },
+      "igst": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      },
+      "vat": null,
+      "hst": null,
+      "total_tax": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      },
+      "shipping_and_handling": null,
+      "rounding_adjustment": null,
+      "grand_total": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      },
+      "total_in_words": null,
+      "cash_paid": null,
+      "change_returned": null
+    }
+  },
+  "validation": {
+    "status": "NOT_APPLICABLE",
+    "summary": "Financial validation not applicable (insufficient populated fields).",
+    "rules_executed": [
+      {
+        "rule_id": "RULE_INV_SUBTOTAL_SUM",
+        "description": "Sum of Line Item Totals == Subtotal",
+        "status": "NOT_APPLICABLE",
+        "calculated_value": null,
+        "expected_value": null,
+        "difference": null
+      },
+      {
+        "rule_id": "RULE_INV_GRAND_TOTAL_MATH",
+        "description": "Subtotal + Taxes + Shipping + Rounding == Grand Total",
+        "status": "NOT_APPLICABLE",
+        "calculated_value": null,
+        "expected_value": null,
+        "difference": null
+      }
+    ]
+  },
+  "processing_metadata": {
+    "processing_time_ms": 2285,
+    "ocr_engine_used": "Tesseract-OCR (Raster Image)",
+    "llm_model_used": "gemini-2.5-flash",
+    "overall_confidence_score": 0.63,
+    "timestamp": "2026-09-10T12:21:32.412898Z"
+  }
+}

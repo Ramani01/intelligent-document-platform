@@ -1,0 +1,153 @@
+{
+  "document_name": "Consolidated Profit & Loss 2026.pdf",
+  "document_type": "PROFIT_AND_LOSS",
+  "processing_status": "COMPLETED",
+  "file_validation": {
+    "is_valid": true,
+    "file_name": "Consolidated Profit & Loss 2026.pdf",
+    "file_type": "PDF",
+    "file_size_bytes": 156956,
+    "page_count": 1,
+    "is_native_pdf": false,
+    "errors": []
+  },
+  "extracted_data": {
+    "header": {
+      "entity_name": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      },
+      "period_ended_date": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      },
+      "scale_unit": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      },
+      "currency": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      },
+      "share_face_value": null
+    },
+    "comparative_years": [
+      "2026",
+      "2025"
+    ],
+    "sections": [
+      {
+        "section_name": "INCOME",
+        "line_items": [
+          {
+            "line_item_name": "Interest Earned",
+            "schedule_number": "13",
+            "values": {
+              "2026": 1000.0,
+              "2025": 900.0
+            },
+            "page_number": 1
+          },
+          {
+            "line_item_name": "Other Income",
+            "schedule_number": "14",
+            "values": {
+              "2026": 200.0,
+              "2025": 150.0
+            },
+            "page_number": 1
+          }
+        ],
+        "totals": {
+          "2026": 1200.0,
+          "2025": 1050.0
+        }
+      },
+      {
+        "section_name": "EXPENDITURE",
+        "line_items": [
+          {
+            "line_item_name": "Operating Expenses",
+            "schedule_number": "16",
+            "values": {
+              "2026": 700.0,
+              "2025": 600.0
+            },
+            "page_number": 1
+          }
+        ],
+        "totals": {
+          "2026": 700.0,
+          "2025": 600.0
+        }
+      }
+    ],
+    "earnings_per_share": {
+      "basic_eps": {
+        "2026": 10.0,
+        "2025": 8.5
+      },
+      "diluted_eps": {
+        "2026": 9.8,
+        "2025": 8.4
+      }
+    }
+  },
+  "validation": {
+    "status": "PASS",
+    "summary": "All 4 applicable financial validation rules passed cleanly.",
+    "rules_executed": [
+      {
+        "rule_id": "RULE_PL_INC_SUM_2026",
+        "description": "Sum of INCOME line items == Section Total (2026)",
+        "status": "PASS",
+        "calculated_value": 1200.0,
+        "expected_value": 1200.0,
+        "difference": 0.0
+      },
+      {
+        "rule_id": "RULE_PL_INC_SUM_2025",
+        "description": "Sum of INCOME line items == Section Total (2025)",
+        "status": "PASS",
+        "calculated_value": 1050.0,
+        "expected_value": 1050.0,
+        "difference": 0.0
+      },
+      {
+        "rule_id": "RULE_PL_EXP_SUM_2026",
+        "description": "Sum of EXPENDITURE line items == Section Total (2026)",
+        "status": "PASS",
+        "calculated_value": 700.0,
+        "expected_value": 700.0,
+        "difference": 0.0
+      },
+      {
+        "rule_id": "RULE_PL_EXP_SUM_2025",
+        "description": "Sum of EXPENDITURE line items == Section Total (2025)",
+        "status": "PASS",
+        "calculated_value": 600.0,
+        "expected_value": 600.0,
+        "difference": 0.0
+      }
+    ]
+  },
+  "processing_metadata": {
+    "processing_time_ms": 1635,
+    "ocr_engine_used": "Tesseract-OCR (Scanned PDF)",
+    "llm_model_used": "gemini-2.5-flash",
+    "overall_confidence_score": 0.74,
+    "timestamp": "2026-09-10T12:21:36.432379Z"
+  }
+}

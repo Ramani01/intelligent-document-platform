@@ -1,0 +1,98 @@
+{
+  "document_name": "Consolidated Balance Sheet 2026.pdf",
+  "document_type": "BALANCE_SHEET",
+  "processing_status": "COMPLETED",
+  "file_validation": {
+    "is_valid": true,
+    "file_name": "Consolidated Balance Sheet 2026.pdf",
+    "file_type": "PDF",
+    "file_size_bytes": 131719,
+    "page_count": 1,
+    "is_native_pdf": false,
+    "errors": []
+  },
+  "extracted_data": {
+    "header": {
+      "entity_name": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      },
+      "as_at_date": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      },
+      "scale_unit": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      },
+      "currency": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      }
+    },
+    "comparative_years": [
+      "2026",
+      "2025"
+    ],
+    "sections": [
+      {
+        "section_name": "CAPITAL AND LIABILITIES",
+        "line_items": [],
+        "totals": {
+          "2026": 0,
+          "2025": 0
+        }
+      },
+      {
+        "section_name": "ASSETS",
+        "line_items": [],
+        "totals": {
+          "2026": 0,
+          "2025": 0
+        }
+      }
+    ],
+    "notes_and_off_balance": []
+  },
+  "validation": {
+    "status": "PASS",
+    "summary": "All 2 applicable financial validation rules passed cleanly.",
+    "rules_executed": [
+      {
+        "rule_id": "RULE_BS_EQUALITY_2026",
+        "description": "Total Assets == Total Capital & Liabilities (2026)",
+        "status": "PASS",
+        "calculated_value": 0.0,
+        "expected_value": 0.0,
+        "difference": 0.0
+      },
+      {
+        "rule_id": "RULE_BS_EQUALITY_2025",
+        "description": "Total Assets == Total Capital & Liabilities (2025)",
+        "status": "PASS",
+        "calculated_value": 0.0,
+        "expected_value": 0.0,
+        "difference": 0.0
+      }
+    ]
+  },
+  "processing_metadata": {
+    "processing_time_ms": 1691,
+    "ocr_engine_used": "Tesseract-OCR (Scanned PDF)",
+    "llm_model_used": "gemini-2.5-flash",
+    "overall_confidence_score": 0.74,
+    "timestamp": "2026-09-10T12:21:34.721392Z"
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "document_name": "Consolidated Cash Flow Statement 2026.pdf",
+  "document_type": "CASH_FLOW",
+  "processing_status": "COMPLETED",
+  "file_validation": {
+    "is_valid": true,
+    "file_name": "Consolidated Cash Flow Statement 2026.pdf",
+    "file_type": "PDF",
+    "file_size_bytes": 239938,
+    "page_count": 2,
+    "is_native_pdf": false,
+    "errors": []
+  },
+  "extracted_data": {
+    "header": {
+      "entity_name": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      },
+      "period_ended_date": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      },
+      "scale_unit": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      },
+      "currency": {
+        "value": null,
+        "evidence": null,
+        "source_text": null,
+        "page_number": 1,
+        "confidence": 0.0
+      }
+    },
+    "comparative_years": [
+      "2026",
+      "2025"
+    ],
+    "sections": [],
+    "reconciliation": {
+      "net_operating_cash_flow": {
+        "2026": 1500.0,
+        "2025": 1200.0
+      },
+      "net_investing_cash_flow": {
+        "2026": -400.0,
+        "2025": -350.0
+      },
+      "net_financing_cash_flow": {
+        "2026": -300.0,
+        "2025": -250.0
+      },
+      "exchange_fluctuation_effect": {
+        "2026": 0.0,
+        "2025": 0.0
+      },
+      "amalgamation_cash": {
+        "2026": 0.0,
+        "2025": 0.0
+      },
+      "net_increase_in_cash": {
+        "2026": 800.0,
+        "2025": 600.0
+      },
+      "opening_cash_equivalents": {
+        "2026": 2000.0,
+        "2025": 1400.0
+      },
+      "ending_cash_equivalents": {
+        "2026": 2800.0,
+        "2025": 2000.0
+      }
+    }
+  },
+  "validation": {
+    "status": "PASS",
+    "summary": "All 4 applicable financial validation rules passed cleanly.",
+    "rules_executed": [
+      {
+        "rule_id": "RULE_CF_NET_INCREASE_2026",
+        "description": "Net Increase == Operating + Investing + Financing (2026)",
+        "status": "PASS",
+        "calculated_value": 800.0,
+        "expected_value": 800.0,
+        "difference": 0.0
+      },
+      {
+        "rule_id": "RULE_CF_ENDING_CASH_2026",
+        "description": "Ending Cash == Opening Cash + Net Increase (2026)",
+        "status": "PASS",
+        "calculated_value": 2800.0,
+        "expected_value": 2800.0,
+        "difference": 0.0
+      },
+      {
+        "rule_id": "RULE_CF_NET_INCREASE_2025",
+        "description": "Net Increase == Operating + Investing + Financing (2025)",
+        "status": "PASS",
+        "calculated_value": 600.0,
+        "expected_value": 600.0,
+        "difference": 0.0
+      },
+      {
+        "rule_id": "RULE_CF_ENDING_CASH_2025",
+        "description": "Ending Cash == Opening Cash + Net Increase (2025)",
+        "status": "PASS",
+        "calculated_value": 2000.0,
+        "expected_value": 2000.0,
+        "difference": 0.0
+      }
+    ]
+  },
+  "processing_metadata": {
+    "processing_time_ms": 3591,
+    "ocr_engine_used": "Tesseract-OCR (Scanned PDF)",
+    "llm_model_used": "gemini-2.5-flash",
+    "overall_confidence_score": 0.74,
+    "timestamp": "2026-09-10T12:21:38.080314Z"
+  }
+}
