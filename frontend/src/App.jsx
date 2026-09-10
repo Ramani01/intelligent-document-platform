@@ -231,23 +231,23 @@ export default function App() {
           </div>
         </div>
 
-        {/* Bottom-Anchored Main Hero Content */}
-        <main className="mt-auto px-5 pb-8 sm:px-8 sm:pb-12 lg:px-12 lg:pb-16">
-          <div className="flex flex-col gap-6 sm:gap-8 lg:flex-row lg:items-end lg:justify-between">
-            {/* Left Column: Headline + Email/Document Ingestion CTA */}
-            <div className="max-w-xl">
-              <h1 className="text-3xl sm:text-4xl lg:text-[3.5rem] font-semibold leading-[1.1] tracking-tight text-[#010101] lg:text-white transition-colors duration-300">
+        {/* Centered Main Hero Content */}
+        <main className="mt-auto px-5 pb-8 sm:px-8 sm:pb-12 lg:px-12 lg:pb-16 text-center">
+          <div className="flex flex-col items-center gap-6 sm:gap-8">
+            {/* Centered Headline & Email CTA */}
+            <div className="max-w-3xl mx-auto text-center">
+              <h1 className="text-3xl sm:text-4xl lg:text-[3.5rem] font-semibold leading-[1.1] tracking-tight text-[#010101] lg:text-white transition-colors duration-300 text-center">
                 Intelligent document extraction & financial audit platform
               </h1>
 
-              {/* Email / Ingestion CTA */}
-              <div className="mt-6 sm:mt-8 flex flex-col gap-3 sm:inline-flex sm:flex-row sm:items-center sm:gap-0 sm:rounded-full sm:bg-white sm:p-1.5">
+              {/* Centered Email / Ingestion CTA */}
+              <div className="mt-6 sm:mt-8 inline-flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-0 sm:rounded-full sm:bg-white sm:p-1.5 justify-center mx-auto">
                 <input
                   type="text"
                   placeholder="Upload Invoices, Balance Sheets, P&L..."
                   readOnly
                   onClick={() => setIsUploadModalOpen(true)}
-                  className="cursor-pointer rounded-full bg-white px-5 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none sm:w-72 sm:rounded-none sm:bg-transparent sm:px-4 sm:py-2"
+                  className="cursor-pointer rounded-full bg-white px-5 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none sm:w-80 sm:rounded-none sm:bg-transparent sm:px-4 sm:py-2 text-center sm:text-left"
                 />
                 <button 
                   onClick={() => setIsUploadModalOpen(true)}
@@ -258,10 +258,10 @@ export default function App() {
               </div>
             </div>
 
-            {/* Right Column: Two Neostats Glass Cards */}
-            <div className="flex flex-col gap-4 sm:flex-row lg:w-auto lg:gap-5">
+            {/* Bottom Glass Cards (Balanced Centered Row) */}
+            <div className="flex flex-col gap-4 sm:flex-row lg:gap-6 justify-center w-full max-w-3xl mx-auto">
               {/* Stats Card */}
-              <div className="sm:w-64 flex flex-col justify-between rounded-2xl bg-white/10 backdrop-blur-lg p-5 sm:p-6">
+              <div className="sm:w-64 flex flex-col justify-between rounded-2xl bg-white/10 backdrop-blur-lg p-5 sm:p-6 text-left">
                 <div>
                   <div className="font-silkscreen text-3xl sm:text-4xl font-normal tracking-tight text-[#010101] lg:text-white transition-colors duration-300">
                     99.8%
@@ -273,7 +273,7 @@ export default function App() {
               </div>
 
               {/* Testimonial / Platform Audit Card */}
-              <div className="sm:w-64 rounded-2xl bg-white/10 backdrop-blur-lg p-5 sm:p-6">
+              <div className="sm:w-64 rounded-2xl bg-white/10 backdrop-blur-lg p-5 sm:p-6 text-left">
                 {/* Neostats Header Row */}
                 <div className="flex items-center gap-2 mb-3 sm:mb-4">
                   <div className="h-6 w-6 rounded-md bg-black flex items-center justify-center text-xs font-bold text-white">
