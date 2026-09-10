@@ -16,15 +16,16 @@ import {
   Sparkles,
   Layers,
   Calculator,
-  BookOpen
+  ExternalLink,
+  ArrowLeft,
+  Activity
 } from 'lucide-react';
 
 const API_BASE_URL = "http://localhost:8000/api/v1";
 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
-  const [activeModal, setActiveModal] = useState(null); // 'upload', 'types', 'validation'
+  const [currentView, setCurrentView] = useState('home'); // 'home', 'ocr', 'types', 'validation', 'docs'
 
   // Upload & Extraction State
   const [file, setFile] = useState(null);
@@ -36,7 +37,7 @@ export default function App() {
   const [resultSubTab, setResultSubTab] = useState('json');
 
   useEffect(() => {
-    if (isMenuOpen || isUploadModalOpen || activeModal) {
+    if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -44,26 +45,28 @@ export default function App() {
     return () => {
       document.body.style.overflow = '';
     };
-  }, [isMenuOpen, isUploadModalOpen, activeModal]);
+  }, [isMenuOpen]);
 
   const handleNavClick = (name) => {
     setIsMenuOpen(false);
     if (name === 'OCR Pipeline') {
-      setIsUploadModalOpen(true);
+      setCurrentView('ocr');
     } else if (name === 'Document Types') {
-      setActiveModal('types');
+      setCurrentView('types');
     } else if (name === 'Math Validation') {
-      setActiveModal('validation');
+      setCurrentView('validation');
     } else if (name === 'API Docs') {
-      window.open('http://localhost:8000/docs', '_blank');
+      setCurrentView('docs');
+    } else {
+      setCurrentView('home');
     }
   };
 
   const navLinks = [
-    { name: 'OCR Pipeline', hasDropdown: false },
-    { name: 'Document Types', hasDropdown: true },
-    { name: 'Math Validation', hasDropdown: false },
-    { name: 'API Docs', hasDropdown: false },
+    { name: 'OCR Pipeline', key: 'ocr', hasDropdown: false },
+    { name: 'Document Types', key: 'types', hasDropdown: true },
+    { name: 'Math Validation', key: 'validation', hasDropdown: false },
+    { name: 'API Docs', key: 'docs', hasDropdown: false },
   ];
 
   const handleFileChange = (e) => {
@@ -124,7 +127,7 @@ export default function App() {
 
   return (
     <section className="relative h-screen w-full overflow-hidden bg-black text-white font-sans">
-      {/* Background Video */}
+      {/* Cinematic Background Video - Preserved Across All Views */}
       <video
         autoPlay
         loop
@@ -134,7 +137,7 @@ export default function App() {
         src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260803_192301_9231ed6b-c55c-4a48-909c-4ebe11cf2e11.mp4"
       />
 
-      {/* Subtle Dark Vignette for High Text Contrast */}
+      {/* Subtle Dark Vignette */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60 z-0 pointer-events-none" />
 
       {/* Main Relative Container */}
@@ -142,7 +145,7 @@ export default function App() {
         {/* Navigation Bar */}
         <nav className="flex items-center justify-between px-5 py-5 sm:px-8 sm:py-6 lg:px-12">
           {/* Neostats Logo & Wordmark */}
-          <div className="flex items-center gap-2.5 z-50">
+          <button onClick={() => setCurrentView('home')} className="flex items-center gap-2.5 z-50 focus:outline-none">
             <svg
               className="h-6 w-6 text-[#010101] fill-[#010101] lg:text-white lg:fill-white transition-colors duration-300 drop-shadow-md"
               viewBox="0 0 256 256"
@@ -152,7 +155,7 @@ export default function App() {
             <span className="text-lg font-bold tracking-tight text-[#010101] lg:text-white transition-colors duration-300 drop-shadow-md">
               neostats
             </span>
-          </div>
+          </button>
 
           {/* Desktop Navigation Cluster */}
           <div className="hidden md:flex items-center gap-3">
@@ -162,7 +165,9 @@ export default function App() {
                 <button
                   key={link.name}
                   onClick={() => handleNavClick(link.name)}
-                  className="flex items-center gap-1 rounded-full px-4 py-1.5 text-sm font-medium text-white/80 hover:bg-white/10 hover:text-white transition-colors"
+                  className={`flex items-center gap-1 rounded-full px-4 py-1.5 text-sm font-medium transition-all ${
+                    currentView === link.key ? 'bg-white/20 text-white font-semibold shadow' : 'text-white/80 hover:bg-white/10 hover:text-white'
+                  }`}
                 >
                   {link.name}
                   {link.hasDropdown && <ChevronDown className="h-3.5 w-3.5" />}
@@ -172,7 +177,7 @@ export default function App() {
 
             {/* Separate Process Document CTA Pill */}
             <button 
-              onClick={() => setIsUploadModalOpen(true)}
+              onClick={() => setCurrentView('ocr')}
               className="flex items-center justify-center rounded-full px-5 text-sm font-medium text-white self-stretch cta-gradient transition-opacity duration-200"
             >
               Process Document
@@ -240,7 +245,7 @@ export default function App() {
             }}
           >
             <button 
-              onClick={() => { setIsMenuOpen(false); setIsUploadModalOpen(true); }}
+              onClick={() => { setIsMenuOpen(false); setCurrentView('ocr'); }}
               className="w-full rounded-full py-3.5 text-center text-sm font-medium text-white cta-gradient transition-opacity duration-200"
             >
               Process Document
@@ -248,129 +253,132 @@ export default function App() {
           </div>
         </div>
 
-        {/* Centered Main Hero Content */}
-        <main className="mt-auto px-5 pb-8 sm:px-8 sm:pb-12 lg:px-12 lg:pb-16 text-center">
-          <div className="flex flex-col items-center gap-8 sm:gap-12">
-            {/* Centered Headline & Email CTA */}
-            <div className="max-w-4xl mx-auto text-center px-4">
-              <h1 className="text-3xl sm:text-5xl lg:text-[3.75rem] font-bold leading-[1.3] tracking-tight text-[#010101] lg:text-white transition-colors duration-300 text-center drop-shadow-[0_10px_20px_rgba(0,0,0,0.9)]">
-                Intelligent document extraction <br className="hidden sm:inline" />
-                & financial audit platform
-              </h1>
+        {/* PAGE VIEW 1: HOME LANDING HERO */}
+        {currentView === 'home' && (
+          <main className="mt-auto px-5 pb-8 sm:px-8 sm:pb-12 lg:px-12 lg:pb-16 text-center">
+            <div className="flex flex-col items-center gap-8 sm:gap-12">
+              {/* Centered Headline & Email CTA */}
+              <div className="max-w-4xl mx-auto text-center px-4">
+                <h1 className="text-3xl sm:text-5xl lg:text-[3.75rem] font-bold leading-[1.3] tracking-tight text-[#010101] lg:text-white transition-colors duration-300 text-center drop-shadow-[0_10px_20px_rgba(0,0,0,0.9)]">
+                  Intelligent document extraction <br className="hidden sm:inline" />
+                  & financial audit platform
+                </h1>
 
-              {/* Centered Email / Ingestion CTA */}
-              <div className="mt-8 sm:mt-10 inline-flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-0 sm:rounded-full sm:bg-white sm:p-2 justify-center mx-auto shadow-2xl">
-                <input
-                  type="text"
-                  placeholder="Upload Invoices, Balance Sheets, P&L..."
-                  readOnly
-                  onClick={() => setIsUploadModalOpen(true)}
-                  className="cursor-pointer rounded-full bg-white px-6 py-3.5 text-sm text-gray-900 placeholder-gray-500 outline-none sm:w-88 sm:rounded-none sm:bg-transparent sm:px-5 sm:py-2.5 text-center sm:text-left"
-                />
-                <button 
-                  onClick={() => setIsUploadModalOpen(true)}
-                  className="rounded-full px-8 py-3.5 sm:py-3 text-sm font-semibold text-white cta-gradient transition-opacity duration-200 text-center shadow-lg"
-                >
-                  Process Document
+                {/* Centered Email / Ingestion CTA */}
+                <div className="mt-8 sm:mt-10 inline-flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-0 sm:rounded-full sm:bg-white sm:p-2 justify-center mx-auto shadow-2xl">
+                  <input
+                    type="text"
+                    placeholder="Upload Invoices, Balance Sheets, P&L..."
+                    readOnly
+                    onClick={() => setCurrentView('ocr')}
+                    className="cursor-pointer rounded-full bg-white px-6 py-3.5 text-sm text-gray-900 placeholder-gray-500 outline-none sm:w-88 sm:rounded-none sm:bg-transparent sm:px-5 sm:py-2.5 text-center sm:text-left"
+                  />
+                  <button 
+                    onClick={() => setCurrentView('ocr')}
+                    className="rounded-full px-8 py-3.5 sm:py-3 text-sm font-semibold text-white cta-gradient transition-opacity duration-200 text-center shadow-lg"
+                  >
+                    Process Document
+                  </button>
+                </div>
+              </div>
+
+              {/* Bottom Glass Cards */}
+              <div className="flex flex-col gap-4 sm:flex-row lg:gap-6 justify-center w-full max-w-3xl mx-auto">
+                {/* Stats Card */}
+                <div className="sm:w-64 flex flex-col justify-between rounded-2xl bg-slate-900/65 backdrop-blur-xl border border-white/15 p-5 sm:p-6 text-left shadow-2xl">
+                  <div>
+                    <div className="font-silkscreen text-3xl sm:text-4xl font-normal tracking-tight text-white transition-colors duration-300">
+                      99.8%
+                    </div>
+                    <p className="text-sm leading-relaxed mt-3 sm:mt-4 text-white/80 transition-colors duration-300">
+                      Financial accuracy rate achieved across Invoices, Balance Sheets & Cash Flow reconciliations.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Testimonial / Platform Audit Card */}
+                <div className="sm:w-64 rounded-2xl bg-slate-900/65 backdrop-blur-xl border border-white/15 p-5 sm:p-6 text-left shadow-2xl">
+                  <div className="flex items-center gap-2 mb-3 sm:mb-4">
+                    <div className="h-6 w-6 rounded-md bg-indigo-600 flex items-center justify-center text-xs font-bold text-white shadow-md">
+                      N
+                    </div>
+                    <span className="text-sm font-bold text-white transition-colors duration-300">
+                      Neostats API
+                    </span>
+                  </div>
+
+                  <p className="text-sm leading-relaxed text-white/85 transition-colors duration-300">
+                    "Extracted structured key-value pairs and line items with verbatim grounding evidence & zero hallucination."
+                  </p>
+
+                  <div className="flex items-center gap-3 mt-4 sm:mt-5">
+                    <img
+                      src="https://i.pravatar.cc/72?img=60"
+                      alt="AI Engineer"
+                      className="h-9 w-9 rounded-full object-cover bg-indigo-500/30 border border-indigo-400/40"
+                    />
+                    <div>
+                      <div className="text-sm font-semibold text-white transition-colors duration-300">
+                        AI Engineer
+                      </div>
+                      <div className="text-xs text-white/70 transition-colors duration-300">
+                        AI Engineer
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </main>
+        )}
+
+        {/* PAGE VIEW 2: OCR PIPELINE (IN THE SAME THEME) */}
+        {currentView === 'ocr' && (
+          <main className="mt-auto px-5 pb-8 sm:px-8 sm:pb-12 lg:px-12 lg:pb-16 flex-1 flex flex-col justify-end max-w-5xl mx-auto w-full">
+            <div className="rounded-2xl bg-slate-900/75 backdrop-blur-xl border border-white/20 p-6 sm:p-8 text-white shadow-2xl">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <span className="text-xs font-bold text-cyan-400 uppercase tracking-widest">LIVE PROCESSOR</span>
+                  <h2 className="text-2xl font-bold flex items-center gap-2">
+                    <Sparkles className="text-indigo-400" /> Neostats OCR Extraction Pipeline
+                  </h2>
+                </div>
+                <button onClick={() => setCurrentView('home')} className="flex items-center gap-1.5 text-xs text-gray-300 hover:text-white bg-white/10 px-3 py-1.5 rounded-full">
+                  <ArrowLeft size={14} /> Back to Home
                 </button>
               </div>
-            </div>
-
-            {/* Bottom Glass Cards (Balanced Centered Row) */}
-            <div className="flex flex-col gap-4 sm:flex-row lg:gap-6 justify-center w-full max-w-3xl mx-auto">
-              {/* Stats Card */}
-              <div className="sm:w-64 flex flex-col justify-between rounded-2xl bg-slate-900/65 backdrop-blur-xl border border-white/15 p-5 sm:p-6 text-left shadow-2xl">
-                <div>
-                  <div className="font-silkscreen text-3xl sm:text-4xl font-normal tracking-tight text-white transition-colors duration-300">
-                    99.8%
-                  </div>
-                  <p className="text-sm leading-relaxed mt-3 sm:mt-4 text-white/80 transition-colors duration-300">
-                    Financial accuracy rate achieved across Invoices, Balance Sheets & Cash Flow reconciliations.
-                  </p>
-                </div>
-              </div>
-
-              {/* Testimonial / Platform Audit Card */}
-              <div className="sm:w-64 rounded-2xl bg-slate-900/65 backdrop-blur-xl border border-white/15 p-5 sm:p-6 text-left shadow-2xl">
-                {/* Neostats Header Row */}
-                <div className="flex items-center gap-2 mb-3 sm:mb-4">
-                  <div className="h-6 w-6 rounded-md bg-indigo-600 flex items-center justify-center text-xs font-bold text-white shadow-md">
-                    N
-                  </div>
-                  <span className="text-sm font-bold text-white transition-colors duration-300">
-                    Neostats API
-                  </span>
-                </div>
-
-                {/* Quote */}
-                <p className="text-sm leading-relaxed text-white/85 transition-colors duration-300">
-                  "Extracted structured key-value pairs and line items with verbatim grounding evidence & zero hallucination."
-                </p>
-
-                {/* Footer User Profile */}
-                <div className="flex items-center gap-3 mt-4 sm:mt-5">
-                  <img
-                    src="https://i.pravatar.cc/72?img=60"
-                    alt="AI Engineer"
-                    className="h-9 w-9 rounded-full object-cover bg-indigo-500/30 border border-indigo-400/40"
-                  />
-                  <div>
-                    <div className="text-sm font-semibold text-white transition-colors duration-300">
-                      AI Engineer
-                    </div>
-                    <div className="text-xs text-white/70 transition-colors duration-300">
-                      AI Engineer
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </main>
-
-        {/* Modal 1: Document Ingestion & Extraction */}
-        {isUploadModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
-            <div className="relative w-full max-w-2xl rounded-2xl bg-slate-900/95 border border-white/20 p-6 text-white shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
-              <button 
-                onClick={() => setIsUploadModalOpen(false)}
-                className="absolute right-4 top-4 rounded-full p-2 text-gray-400 hover:bg-white/10 hover:text-white"
-              >
-                <X size={20} />
-              </button>
-
-              <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-                <Sparkles size={20} className="text-indigo-400" /> Neostats OCR Pipeline Processor
-              </h2>
 
               <form onSubmit={handleProcessSubmit} className="space-y-4">
-                <div className="border-2 border-dashed border-indigo-500/40 rounded-xl p-6 text-center bg-slate-950/50 hover:border-indigo-400 transition-colors cursor-pointer" onClick={() => document.getElementById('modal-file').click()}>
+                <div 
+                  className="border-2 border-dashed border-indigo-500/50 rounded-xl p-8 text-center bg-slate-950/60 hover:border-indigo-400 transition-all cursor-pointer"
+                  onClick={() => document.getElementById('view-file-input').click()}
+                >
                   <input 
-                    id="modal-file" 
+                    id="view-file-input" 
                     type="file" 
                     accept=".pdf,.jpg,.jpeg,.png"
                     onChange={handleFileChange} 
                     className="hidden" 
                   />
-                  <Upload size={32} className="mx-auto text-indigo-400 mb-2" />
+                  <Upload size={40} className="mx-auto text-indigo-400 mb-3" />
                   {file ? (
                     <div>
-                      <p className="font-semibold">{file.name}</p>
+                      <p className="font-semibold text-lg">{file.name}</p>
                       <p className="text-xs text-gray-400">{(file.size / 1024).toFixed(1)} KB • Ready for extraction</p>
                     </div>
                   ) : (
                     <div>
-                      <p className="font-semibold">Click or drag financial document (PDF, JPG, PNG)</p>
-                      <p className="text-xs text-gray-400">Max 10 MB, ≤ 3 pages</p>
+                      <p className="font-semibold text-lg">Click or drag financial document (PDF, JPG, PNG)</p>
+                      <p className="text-xs text-gray-400 mt-1">Supports Invoices, Balance Sheets, P&L & Cash Flow (Max 10 MB, ≤ 3 pages)</p>
                     </div>
                   )}
                 </div>
 
-                <div className="flex gap-4">
+                <div className="flex flex-col sm:flex-row gap-4">
                   <select 
                     value={docType} 
                     onChange={(e) => setDocType(e.target.value)}
-                    className="w-full p-3 rounded-xl bg-slate-950 border border-white/15 text-white outline-none"
+                    className="flex-1 p-3.5 rounded-xl bg-slate-950 border border-white/20 text-white outline-none"
                   >
                     <option value="AUTO_DETECT">⚡ Auto-Detect Document Type</option>
                     <option value="INVOICE">📄 Invoice</option>
@@ -382,54 +390,54 @@ export default function App() {
                   <button 
                     type="submit" 
                     disabled={!file || isProcessing}
-                    className="px-6 py-3 rounded-xl font-semibold text-white cta-gradient whitespace-nowrap disabled:opacity-50"
+                    className="px-8 py-3.5 rounded-xl font-bold text-white cta-gradient whitespace-nowrap disabled:opacity-50 shadow-lg"
                   >
-                    {isProcessing ? "Processing..." : "Execute Extraction"}
+                    {isProcessing ? "Processing..." : "Execute Pipeline Extraction"}
                   </button>
                 </div>
               </form>
 
               {isProcessing && (
-                <div className="mt-4 text-center text-sm text-cyan-400 animate-pulse">
+                <div className="mt-4 text-center text-sm text-cyan-400 font-semibold animate-pulse">
                   {currentStep}
                 </div>
               )}
 
               {errorMsg && (
-                <div className="mt-4 p-3 rounded-xl bg-red-500/20 border border-red-500/40 text-red-300 text-sm">
+                <div className="mt-4 p-4 rounded-xl bg-red-500/20 border border-red-500/40 text-red-300 text-sm">
                   {errorMsg}
                 </div>
               )}
 
               {result && (
-                <div className="mt-4 flex-1 overflow-y-auto border-t border-white/10 pt-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider">{result.document_type}</span>
+                <div className="mt-6 border-t border-white/15 pt-6 max-h-72 overflow-y-auto">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-xs font-bold text-cyan-400 uppercase tracking-widest">{result.document_type}</span>
                     <div className="flex items-center gap-2">
                       {renderStatusPill(result.validation?.status)}
-                      <span className="text-xs px-2 py-1 rounded-md bg-indigo-500/30 text-indigo-300 font-bold">
+                      <span className="text-xs px-3 py-1 rounded-md bg-indigo-500/30 text-indigo-300 font-bold">
                         {(result.processing_metadata?.overall_confidence_score * 100).toFixed(0)}% Confidence
                       </span>
                     </div>
                   </div>
 
-                  <div className="flex gap-2 mb-3">
+                  <div className="flex gap-2 mb-4">
                     <button 
                       onClick={() => setResultSubTab('json')}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-semibold ${resultSubTab === 'json' ? 'bg-indigo-600 text-white' : 'bg-white/10 text-gray-300'}`}
+                      className={`px-4 py-2 rounded-lg text-xs font-bold ${resultSubTab === 'json' ? 'bg-indigo-600 text-white' : 'bg-white/10 text-gray-300'}`}
                     >
-                      Extracted JSON
+                      Extracted JSON Schema
                     </button>
                     <button 
                       onClick={() => setResultSubTab('validation')}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-semibold ${resultSubTab === 'validation' ? 'bg-indigo-600 text-white' : 'bg-white/10 text-gray-300'}`}
+                      className={`px-4 py-2 rounded-lg text-xs font-bold ${resultSubTab === 'validation' ? 'bg-indigo-600 text-white' : 'bg-white/10 text-gray-300'}`}
                     >
                       Math Rule Audit ({result.validation?.rules_executed?.length || 0})
                     </button>
                   </div>
 
                   {resultSubTab === 'json' && (
-                    <div className="json-viewer max-h-60 overflow-y-auto">
+                    <div className="json-viewer max-h-48 overflow-y-auto">
                       <pre>{JSON.stringify(result.extracted_data, null, 2)}</pre>
                     </div>
                   )}
@@ -460,81 +468,155 @@ export default function App() {
                 </div>
               )}
             </div>
-          </div>
+          </main>
         )}
 
-        {/* Modal 2: Document Types Catalog */}
-        {activeModal === 'types' && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
-            <div className="relative w-full max-w-2xl rounded-2xl bg-slate-900/95 border border-white/20 p-6 text-white shadow-2xl max-h-[85vh] overflow-y-auto">
-              <button 
-                onClick={() => setActiveModal(null)}
-                className="absolute right-4 top-4 rounded-full p-2 text-gray-400 hover:bg-white/10 hover:text-white"
-              >
-                <X size={20} />
-              </button>
-
-              <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-                <Layers size={20} className="text-cyan-400" /> Supported Document Types & Schemas
-              </h2>
+        {/* PAGE VIEW 3: DOCUMENT TYPES (IN THE SAME THEME) */}
+        {currentView === 'types' && (
+          <main className="mt-auto px-5 pb-8 sm:px-8 sm:pb-12 lg:px-12 lg:pb-16 flex-1 flex flex-col justify-end max-w-5xl mx-auto w-full">
+            <div className="rounded-2xl bg-slate-900/75 backdrop-blur-xl border border-white/20 p-6 sm:p-8 text-white shadow-2xl">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <span className="text-xs font-bold text-cyan-400 uppercase tracking-widest">CATALOG</span>
+                  <h2 className="text-2xl font-bold flex items-center gap-2">
+                    <Layers className="text-cyan-400" /> Supported Document Schemas
+                  </h2>
+                </div>
+                <button onClick={() => setCurrentView('home')} className="flex items-center gap-1.5 text-xs text-gray-300 hover:text-white bg-white/10 px-3 py-1.5 rounded-full">
+                  <ArrowLeft size={14} /> Back to Home
+                </button>
+              </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4 rounded-xl bg-slate-950 border border-white/10">
-                  <h3 className="font-bold text-indigo-400 mb-1">📄 1. Invoices</h3>
-                  <p className="text-xs text-gray-300">Extracts Header, Vendor, Buyer, Line Items Table (Qty, Unit Price, Line Amount), Tax Splits (CGST, SGST, IGST, VAT), and Grand Total.</p>
+                <div className="p-5 rounded-xl bg-slate-950/80 border border-white/15">
+                  <h3 className="font-bold text-indigo-400 text-base mb-2">📄 1. Invoices</h3>
+                  <p className="text-xs text-gray-300 leading-relaxed">
+                    Extracts Invoice Number, Issue/Due Date, Payment Terms, Vendor & Buyer Party Details, Line Items Table (Qty, Unit Price, Line Amount), Tax Splits (CGST, SGST, IGST, VAT), and Grand Total.
+                  </p>
                 </div>
-                <div className="p-4 rounded-xl bg-slate-950 border border-white/10">
-                  <h3 className="font-bold text-cyan-400 mb-1">📊 2. Balance Sheet</h3>
-                  <p className="text-xs text-gray-300">Multi-year comparative Asset & Liability line items, Schedules, Currency Scale Units, and Total Accounting Equation equality verification.</p>
+                <div className="p-5 rounded-xl bg-slate-950/80 border border-white/15">
+                  <h3 className="font-bold text-cyan-400 text-base mb-2">📊 2. Balance Sheet</h3>
+                  <p className="text-xs text-gray-300 leading-relaxed">
+                    Multi-year comparative Asset & Liability line items, Schedules, Currency Scale Units (crore/thousands), and Total Accounting Equation equality verification.
+                  </p>
                 </div>
-                <div className="p-4 rounded-xl bg-slate-950 border border-white/10">
-                  <h3 className="font-bold text-purple-400 mb-1">📈 3. Profit & Loss</h3>
-                  <p className="text-xs text-gray-300">Revenues, Interest Earned, Operating Expenses, Provisions, Net Group Profit, Appropriations, and Basic/Diluted EPS.</p>
+                <div className="p-5 rounded-xl bg-slate-950/80 border border-white/15">
+                  <h3 className="font-bold text-purple-400 text-base mb-2">📈 3. Profit & Loss</h3>
+                  <p className="text-xs text-gray-300 leading-relaxed">
+                    Revenues, Interest Earned, Operating Expenses, Provisions & Contingencies, Net Group Profit, Appropriations, and Basic/Diluted EPS.
+                  </p>
                 </div>
-                <div className="p-4 rounded-xl bg-slate-950 border border-white/10">
-                  <h3 className="font-bold text-emerald-400 mb-1">💵 4. Cash Flow Statement</h3>
-                  <p className="text-xs text-gray-300">Net Operating, Investing, and Financing Cash Flows, Exchange Fluctuation effects, Net Cash Increase, Opening & Ending Balances.</p>
+                <div className="p-5 rounded-xl bg-slate-950/80 border border-white/15">
+                  <h3 className="font-bold text-emerald-400 text-base mb-2">💵 4. Cash Flow Statement</h3>
+                  <p className="text-xs text-gray-300 leading-relaxed">
+                    Net Operating, Investing, and Financing Cash Flows, Exchange Fluctuation effects, Net Cash Increase, Opening & Ending Cash Balances.
+                  </p>
                 </div>
               </div>
             </div>
-          </div>
+          </main>
         )}
 
-        {/* Modal 3: Deterministic Financial Validation Rules */}
-        {activeModal === 'validation' && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
-            <div className="relative w-full max-w-2xl rounded-2xl bg-slate-900/95 border border-white/20 p-6 text-white shadow-2xl max-h-[85vh] overflow-y-auto">
-              <button 
-                onClick={() => setActiveModal(null)}
-                className="absolute right-4 top-4 rounded-full p-2 text-gray-400 hover:bg-white/10 hover:text-white"
-              >
-                <X size={20} />
-              </button>
+        {/* PAGE VIEW 4: MATH VALIDATION (IN THE SAME THEME) */}
+        {currentView === 'validation' && (
+          <main className="mt-auto px-5 pb-8 sm:px-8 sm:pb-12 lg:px-12 lg:pb-16 flex-1 flex flex-col justify-end max-w-5xl mx-auto w-full">
+            <div className="rounded-2xl bg-slate-900/75 backdrop-blur-xl border border-white/20 p-6 sm:p-8 text-white shadow-2xl">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest">DETERMINISTIC VERIFICATION</span>
+                  <h2 className="text-2xl font-bold flex items-center gap-2">
+                    <Calculator className="text-emerald-400" /> Pure Python Financial Validation Engine
+                  </h2>
+                </div>
+                <button onClick={() => setCurrentView('home')} className="flex items-center gap-1.5 text-xs text-gray-300 hover:text-white bg-white/10 px-3 py-1.5 rounded-full">
+                  <ArrowLeft size={14} /> Back to Home
+                </button>
+              </div>
 
-              <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-                <Calculator size={20} className="text-emerald-400" /> Deterministic Financial Validation Engine
-              </h2>
-
-              <div className="space-y-3 text-sm">
-                <div className="p-3 rounded-xl bg-slate-950 border border-white/10">
-                  <span className="font-mono text-indigo-400 text-xs">INVOICE_LINE_MATH</span>
-                  <p className="text-xs text-gray-300">Quantity * Unit Price == Line Total (within $0.05 tolerance)</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 rounded-xl bg-slate-950/80 border border-white/15">
+                  <span className="font-mono text-indigo-400 text-xs font-bold">RULE_INV_LINE_MATH</span>
+                  <p className="text-xs text-gray-300 mt-1">Quantity * Unit Price == Line Total (within $0.05 tolerance)</p>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-950 border border-white/10">
-                  <span className="font-mono text-cyan-400 text-xs">INVOICE_GRAND_RECONCILIATION</span>
-                  <p className="text-xs text-gray-300">Subtotal + Total Tax + Shipping + Rounding == Grand Total</p>
+                <div className="p-4 rounded-xl bg-slate-950/80 border border-white/15">
+                  <span className="font-mono text-cyan-400 text-xs font-bold">RULE_INV_GRAND_MATH</span>
+                  <p className="text-xs text-gray-300 mt-1">Subtotal + Total Tax + Shipping + Rounding == Grand Total</p>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-950 border border-white/10">
-                  <span className="font-mono text-emerald-400 text-xs">BALANCE_SHEET_ACCOUNTING_EQUALITY</span>
-                  <p className="text-xs text-gray-300">Total Assets (Year T) == Total Liabilities & Equity (Year T)</p>
+                <div className="p-4 rounded-xl bg-slate-950/80 border border-white/15">
+                  <span className="font-mono text-emerald-400 text-xs font-bold">RULE_BS_EQUALITY_YEAR</span>
+                  <p className="text-xs text-gray-300 mt-1">Total Assets (Year T) == Total Capital & Liabilities (Year T)</p>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-950 border border-white/10">
-                  <span className="font-mono text-purple-400 text-xs">CASH_FLOW_RECONCILIATION</span>
-                  <p className="text-xs text-gray-300">Ending Cash == Opening Cash + Net Increase in Cash</p>
+                <div className="p-4 rounded-xl bg-slate-950/80 border border-white/15">
+                  <span className="font-mono text-purple-400 text-xs font-bold">RULE_CF_ENDING_CASH</span>
+                  <p className="text-xs text-gray-300 mt-1">Ending Cash == Opening Cash + Net Increase in Cash</p>
                 </div>
               </div>
             </div>
-          </div>
+          </main>
+        )}
+
+        {/* PAGE VIEW 5: API DOCS (IN THE SAME THEME) */}
+        {currentView === 'docs' && (
+          <main className="mt-auto px-5 pb-8 sm:px-8 sm:pb-12 lg:px-12 lg:pb-16 flex-1 flex flex-col justify-end max-w-5xl mx-auto w-full">
+            <div className="rounded-2xl bg-slate-900/75 backdrop-blur-xl border border-white/20 p-6 sm:p-8 text-white shadow-2xl">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <span className="text-xs font-bold text-indigo-400 uppercase tracking-widest">REST GATEWAY</span>
+                  <h2 className="text-2xl font-bold flex items-center gap-2">
+                    <BookOpen className="text-indigo-400" /> API Specification & Endpoints
+                  </h2>
+                </div>
+                <button onClick={() => setCurrentView('home')} className="flex items-center gap-1.5 text-xs text-gray-300 hover:text-white bg-white/10 px-3 py-1.5 rounded-full">
+                  <ArrowLeft size={14} /> Back to Home
+                </button>
+              </div>
+
+              <div className="space-y-3 text-xs font-mono">
+                <div className="p-3.5 rounded-xl bg-slate-950/80 border border-white/15 flex items-center justify-between">
+                  <div>
+                    <span className="px-2 py-1 rounded bg-green-500/20 text-green-400 font-bold mr-3">POST</span>
+                    <span className="text-white">/api/v1/documents/process</span>
+                  </div>
+                  <span className="text-gray-400">Ingest & process document payload</span>
+                </div>
+
+                <div className="p-3.5 rounded-xl bg-slate-950/80 border border-white/15 flex items-center justify-between">
+                  <div>
+                    <span className="px-2 py-1 rounded bg-blue-500/20 text-blue-400 font-bold mr-3">GET</span>
+                    <span className="text-white">/api/v1/documents/{'{document_name}'}</span>
+                  </div>
+                  <span className="text-gray-400">Get latest stored extraction record</span>
+                </div>
+
+                <div className="p-3.5 rounded-xl bg-slate-950/80 border border-white/15 flex items-center justify-between">
+                  <div>
+                    <span className="px-2 py-1 rounded bg-blue-500/20 text-blue-400 font-bold mr-3">GET</span>
+                    <span className="text-white">/api/v1/documents</span>
+                  </div>
+                  <span className="text-gray-400">List paginated document summaries</span>
+                </div>
+
+                <div className="p-3.5 rounded-xl bg-slate-950/80 border border-white/15 flex items-center justify-between">
+                  <div>
+                    <span className="px-2 py-1 rounded bg-blue-500/20 text-blue-400 font-bold mr-3">GET</span>
+                    <span className="text-white">/api/v1/health</span>
+                  </div>
+                  <span className="text-gray-400">Health check status endpoint</span>
+                </div>
+              </div>
+
+              <div className="mt-6 flex justify-end">
+                <a
+                  href="http://localhost:8000/docs"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold text-white cta-gradient text-xs shadow-lg"
+                >
+                  Open Live Swagger OpenAPI Interactive Docs <ExternalLink size={14} />
+                </a>
+              </div>
+            </div>
+          </main>
         )}
       </div>
     </section>
