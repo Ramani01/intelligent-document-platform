@@ -117,6 +117,9 @@ export default function App() {
         src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260803_192301_9231ed6b-c55c-4a48-909c-4ebe11cf2e11.mp4"
       />
 
+      {/* Subtle Dark Vignette for High Text Contrast */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60 z-0 pointer-events-none" />
+
       {/* Main Relative Container */}
       <div className="relative z-10 flex flex-col h-full">
         {/* Navigation Bar */}
@@ -124,12 +127,12 @@ export default function App() {
           {/* Neostats Logo & Wordmark */}
           <div className="flex items-center gap-2.5 z-50">
             <svg
-              className="h-6 w-6 text-[#010101] fill-[#010101] lg:text-white lg:fill-white transition-colors duration-300"
+              className="h-6 w-6 text-[#010101] fill-[#010101] lg:text-white lg:fill-white transition-colors duration-300 drop-shadow-md"
               viewBox="0 0 256 256"
             >
               <path d="M 128 128 C 128 198.692 70.692 256 0 256 C 0 185.308 57.308 128 128 128 Z M 128 128 C 198.692 128 256 185.308 256 256 C 185.308 256 128 198.692 128 128 Z M 0 0 C 70.692 0 128 57.308 128 128 C 57.308 128 0 70.692 0 0 Z M 256 0 C 256 70.692 198.692 128 128 128 C 128 57.308 185.308 0 256 0 Z" />
             </svg>
-            <span className="text-lg font-bold tracking-tight text-[#010101] lg:text-white transition-colors duration-300">
+            <span className="text-lg font-bold tracking-tight text-[#010101] lg:text-white transition-colors duration-300 drop-shadow-md">
               neostats
             </span>
           </div>
@@ -233,26 +236,26 @@ export default function App() {
 
         {/* Centered Main Hero Content */}
         <main className="mt-auto px-5 pb-8 sm:px-8 sm:pb-12 lg:px-12 lg:pb-16 text-center">
-          <div className="flex flex-col items-center gap-6 sm:gap-8">
+          <div className="flex flex-col items-center gap-8 sm:gap-12">
             {/* Centered Headline & Email CTA */}
-            <div className="max-w-3xl mx-auto text-center">
-              <h1 className="text-3xl sm:text-4xl lg:text-[3.5rem] font-semibold leading-[1.15] tracking-tight text-[#010101] lg:text-white transition-colors duration-300 text-center">
+            <div className="max-w-4xl mx-auto text-center px-4">
+              <h1 className="text-3xl sm:text-5xl lg:text-[3.75rem] font-bold leading-[1.3] tracking-tight text-[#010101] lg:text-white transition-colors duration-300 text-center drop-shadow-[0_10px_20px_rgba(0,0,0,0.9)]">
                 Intelligent document extraction <br className="hidden sm:inline" />
                 & financial audit platform
               </h1>
 
               {/* Centered Email / Ingestion CTA */}
-              <div className="mt-6 sm:mt-8 inline-flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-0 sm:rounded-full sm:bg-white sm:p-1.5 justify-center mx-auto">
+              <div className="mt-8 sm:mt-10 inline-flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-0 sm:rounded-full sm:bg-white sm:p-2 justify-center mx-auto shadow-2xl">
                 <input
                   type="text"
                   placeholder="Upload Invoices, Balance Sheets, P&L..."
                   readOnly
                   onClick={() => setIsUploadModalOpen(true)}
-                  className="cursor-pointer rounded-full bg-white px-5 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none sm:w-80 sm:rounded-none sm:bg-transparent sm:px-4 sm:py-2 text-center sm:text-left"
+                  className="cursor-pointer rounded-full bg-white px-6 py-3.5 text-sm text-gray-900 placeholder-gray-500 outline-none sm:w-88 sm:rounded-none sm:bg-transparent sm:px-5 sm:py-2.5 text-center sm:text-left"
                 />
                 <button 
                   onClick={() => setIsUploadModalOpen(true)}
-                  className="rounded-full px-6 py-3 sm:py-2.5 text-sm font-medium text-white cta-gradient transition-opacity duration-200 text-center"
+                  className="rounded-full px-8 py-3.5 sm:py-3 text-sm font-semibold text-white cta-gradient transition-opacity duration-200 text-center shadow-lg"
                 >
                   Process Document
                 </button>
@@ -262,31 +265,31 @@ export default function App() {
             {/* Bottom Glass Cards (Balanced Centered Row) */}
             <div className="flex flex-col gap-4 sm:flex-row lg:gap-6 justify-center w-full max-w-3xl mx-auto">
               {/* Stats Card */}
-              <div className="sm:w-64 flex flex-col justify-between rounded-2xl bg-white/10 backdrop-blur-lg p-5 sm:p-6 text-left">
+              <div className="sm:w-64 flex flex-col justify-between rounded-2xl bg-slate-900/65 backdrop-blur-xl border border-white/15 p-5 sm:p-6 text-left shadow-2xl">
                 <div>
-                  <div className="font-silkscreen text-3xl sm:text-4xl font-normal tracking-tight text-[#010101] lg:text-white transition-colors duration-300">
+                  <div className="font-silkscreen text-3xl sm:text-4xl font-normal tracking-tight text-white transition-colors duration-300">
                     99.8%
                   </div>
-                  <p className="text-sm leading-relaxed mt-3 sm:mt-4 text-[#010101]/70 lg:text-white/70 transition-colors duration-300">
+                  <p className="text-sm leading-relaxed mt-3 sm:mt-4 text-white/80 transition-colors duration-300">
                     Financial accuracy rate achieved across Invoices, Balance Sheets & Cash Flow reconciliations.
                   </p>
                 </div>
               </div>
 
               {/* Testimonial / Platform Audit Card */}
-              <div className="sm:w-64 rounded-2xl bg-white/10 backdrop-blur-lg p-5 sm:p-6 text-left">
+              <div className="sm:w-64 rounded-2xl bg-slate-900/65 backdrop-blur-xl border border-white/15 p-5 sm:p-6 text-left shadow-2xl">
                 {/* Neostats Header Row */}
                 <div className="flex items-center gap-2 mb-3 sm:mb-4">
-                  <div className="h-6 w-6 rounded-md bg-black flex items-center justify-center text-xs font-bold text-white">
+                  <div className="h-6 w-6 rounded-md bg-indigo-600 flex items-center justify-center text-xs font-bold text-white shadow-md">
                     N
                   </div>
-                  <span className="text-sm font-semibold text-[#010101] lg:text-white transition-colors duration-300">
+                  <span className="text-sm font-bold text-white transition-colors duration-300">
                     Neostats API
                   </span>
                 </div>
 
                 {/* Quote */}
-                <p className="text-sm leading-relaxed text-[#010101]/80 lg:text-white/80 transition-colors duration-300">
+                <p className="text-sm leading-relaxed text-white/85 transition-colors duration-300">
                   "Extracted structured key-value pairs and line items with verbatim grounding evidence & zero hallucination."
                 </p>
 
@@ -294,15 +297,15 @@ export default function App() {
                 <div className="flex items-center gap-3 mt-4 sm:mt-5">
                   <img
                     src="https://i.pravatar.cc/72?img=60"
-                    alt="HDFC Financial Audit"
-                    className="h-9 w-9 rounded-full object-cover bg-white/20"
+                    alt="AI Engineer"
+                    className="h-9 w-9 rounded-full object-cover bg-indigo-500/30 border border-indigo-400/40"
                   />
                   <div>
-                    <div className="text-sm font-semibold text-[#010101] lg:text-white transition-colors duration-300">
-                      HDFC Financial Audit
+                    <div className="text-sm font-semibold text-white transition-colors duration-300">
+                      AI Engineer
                     </div>
-                    <div className="text-xs text-[#010101]/60 lg:text-white/60 transition-colors duration-300">
-                      Enterprise Validation Engine
+                    <div className="text-xs text-white/70 transition-colors duration-300">
+                      AI Engineer
                     </div>
                   </div>
                 </div>
