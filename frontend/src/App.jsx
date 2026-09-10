@@ -236,8 +236,9 @@ export default function App() {
           <div className="flex flex-col items-center gap-6 sm:gap-8">
             {/* Centered Headline & Email CTA */}
             <div className="max-w-3xl mx-auto text-center">
-              <h1 className="text-3xl sm:text-4xl lg:text-[3.5rem] font-semibold leading-[1.1] tracking-tight text-[#010101] lg:text-white transition-colors duration-300 text-center">
-                Intelligent document extraction & financial audit platform
+              <h1 className="text-3xl sm:text-4xl lg:text-[3.5rem] font-semibold leading-[1.15] tracking-tight text-[#010101] lg:text-white transition-colors duration-300 text-center">
+                Intelligent document extraction <br className="hidden sm:inline" />
+                & financial audit platform
               </h1>
 
               {/* Centered Email / Ingestion CTA */}
