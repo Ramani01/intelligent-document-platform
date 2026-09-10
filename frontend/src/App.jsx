@@ -13,7 +13,10 @@ import {
   Code, 
   Database,
   Cpu,
-  Sparkles
+  Sparkles,
+  Layers,
+  Calculator,
+  BookOpen
 } from 'lucide-react';
 
 const API_BASE_URL = "http://localhost:8000/api/v1";
@@ -21,6 +24,7 @@ const API_BASE_URL = "http://localhost:8000/api/v1";
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+  const [activeModal, setActiveModal] = useState(null); // 'upload', 'types', 'validation'
 
   // Upload & Extraction State
   const [file, setFile] = useState(null);
@@ -32,7 +36,7 @@ export default function App() {
   const [resultSubTab, setResultSubTab] = useState('json');
 
   useEffect(() => {
-    if (isMenuOpen || isUploadModalOpen) {
+    if (isMenuOpen || isUploadModalOpen || activeModal) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -40,13 +44,26 @@ export default function App() {
     return () => {
       document.body.style.overflow = '';
     };
-  }, [isMenuOpen, isUploadModalOpen]);
+  }, [isMenuOpen, isUploadModalOpen, activeModal]);
+
+  const handleNavClick = (name) => {
+    setIsMenuOpen(false);
+    if (name === 'OCR Pipeline') {
+      setIsUploadModalOpen(true);
+    } else if (name === 'Document Types') {
+      setActiveModal('types');
+    } else if (name === 'Math Validation') {
+      setActiveModal('validation');
+    } else if (name === 'API Docs') {
+      window.open('http://localhost:8000/docs', '_blank');
+    }
+  };
 
   const navLinks = [
-    { name: 'OCR Pipeline', hasDropdown: false, href: '#ocr' },
-    { name: 'Document Types', hasDropdown: true, href: '#types' },
-    { name: 'Math Validation', hasDropdown: false, href: '#validation' },
-    { name: 'API Docs', hasDropdown: false, href: 'http://localhost:8000/docs' },
+    { name: 'OCR Pipeline', hasDropdown: false },
+    { name: 'Document Types', hasDropdown: true },
+    { name: 'Math Validation', hasDropdown: false },
+    { name: 'API Docs', hasDropdown: false },
   ];
 
   const handleFileChange = (e) => {
@@ -142,16 +159,14 @@ export default function App() {
             {/* Glass Pill Cluster */}
             <div className="flex items-center gap-1 rounded-full bg-white/10 px-1.5 py-1.5 backdrop-blur-lg">
               {navLinks.map((link) => (
-                <a
+                <button
                   key={link.name}
-                  href={link.href}
-                  target={link.href.startsWith('http') ? '_blank' : '_self'}
-                  rel="noreferrer"
+                  onClick={() => handleNavClick(link.name)}
                   className="flex items-center gap-1 rounded-full px-4 py-1.5 text-sm font-medium text-white/80 hover:bg-white/10 hover:text-white transition-colors"
                 >
                   {link.name}
                   {link.hasDropdown && <ChevronDown className="h-3.5 w-3.5" />}
-                </a>
+                </button>
               ))}
             </div>
 
@@ -199,11 +214,10 @@ export default function App() {
           {/* Mobile Nav Links */}
           <div className="px-6 pt-24 flex flex-col gap-2">
             {navLinks.map((link, index) => (
-              <a
+              <button
                 key={link.name}
-                href={link.href}
-                onClick={() => setIsMenuOpen(false)}
-                className="flex items-center justify-between rounded-xl px-4 py-3.5 text-base font-medium text-white/80 hover:bg-white/10 hover:text-white transition-all duration-300"
+                onClick={() => handleNavClick(link.name)}
+                className="flex items-center justify-between rounded-xl px-4 py-3.5 text-base font-medium text-white/80 hover:bg-white/10 hover:text-white transition-all duration-300 text-left"
                 style={{
                   transitionDelay: `${(index + 1) * 60}ms`,
                   opacity: isMenuOpen ? 1 : 0,
@@ -212,7 +226,7 @@ export default function App() {
               >
                 <span>{link.name}</span>
                 {link.hasDropdown && <ChevronDown className="h-4 w-4" />}
-              </a>
+              </button>
             ))}
           </div>
 
@@ -314,7 +328,7 @@ export default function App() {
           </div>
         </main>
 
-        {/* Modal Window for Document Ingestion & Extraction */}
+        {/* Modal 1: Document Ingestion & Extraction */}
         {isUploadModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
             <div className="relative w-full max-w-2xl rounded-2xl bg-slate-900/95 border border-white/20 p-6 text-white shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
@@ -326,7 +340,7 @@ export default function App() {
               </button>
 
               <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-                <Sparkles size={20} className="text-indigo-400" /> Neostats Document Intelligence Processor
+                <Sparkles size={20} className="text-indigo-400" /> Neostats OCR Pipeline Processor
               </h2>
 
               <form onSubmit={handleProcessSubmit} className="space-y-4">
@@ -445,6 +459,80 @@ export default function App() {
                   )}
                 </div>
               )}
+            </div>
+          </div>
+        )}
+
+        {/* Modal 2: Document Types Catalog */}
+        {activeModal === 'types' && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+            <div className="relative w-full max-w-2xl rounded-2xl bg-slate-900/95 border border-white/20 p-6 text-white shadow-2xl max-h-[85vh] overflow-y-auto">
+              <button 
+                onClick={() => setActiveModal(null)}
+                className="absolute right-4 top-4 rounded-full p-2 text-gray-400 hover:bg-white/10 hover:text-white"
+              >
+                <X size={20} />
+              </button>
+
+              <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                <Layers size={20} className="text-cyan-400" /> Supported Document Types & Schemas
+              </h2>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 rounded-xl bg-slate-950 border border-white/10">
+                  <h3 className="font-bold text-indigo-400 mb-1">📄 1. Invoices</h3>
+                  <p className="text-xs text-gray-300">Extracts Header, Vendor, Buyer, Line Items Table (Qty, Unit Price, Line Amount), Tax Splits (CGST, SGST, IGST, VAT), and Grand Total.</p>
+                </div>
+                <div className="p-4 rounded-xl bg-slate-950 border border-white/10">
+                  <h3 className="font-bold text-cyan-400 mb-1">📊 2. Balance Sheet</h3>
+                  <p className="text-xs text-gray-300">Multi-year comparative Asset & Liability line items, Schedules, Currency Scale Units, and Total Accounting Equation equality verification.</p>
+                </div>
+                <div className="p-4 rounded-xl bg-slate-950 border border-white/10">
+                  <h3 className="font-bold text-purple-400 mb-1">📈 3. Profit & Loss</h3>
+                  <p className="text-xs text-gray-300">Revenues, Interest Earned, Operating Expenses, Provisions, Net Group Profit, Appropriations, and Basic/Diluted EPS.</p>
+                </div>
+                <div className="p-4 rounded-xl bg-slate-950 border border-white/10">
+                  <h3 className="font-bold text-emerald-400 mb-1">💵 4. Cash Flow Statement</h3>
+                  <p className="text-xs text-gray-300">Net Operating, Investing, and Financing Cash Flows, Exchange Fluctuation effects, Net Cash Increase, Opening & Ending Balances.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Modal 3: Deterministic Financial Validation Rules */}
+        {activeModal === 'validation' && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+            <div className="relative w-full max-w-2xl rounded-2xl bg-slate-900/95 border border-white/20 p-6 text-white shadow-2xl max-h-[85vh] overflow-y-auto">
+              <button 
+                onClick={() => setActiveModal(null)}
+                className="absolute right-4 top-4 rounded-full p-2 text-gray-400 hover:bg-white/10 hover:text-white"
+              >
+                <X size={20} />
+              </button>
+
+              <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                <Calculator size={20} className="text-emerald-400" /> Deterministic Financial Validation Engine
+              </h2>
+
+              <div className="space-y-3 text-sm">
+                <div className="p-3 rounded-xl bg-slate-950 border border-white/10">
+                  <span className="font-mono text-indigo-400 text-xs">INVOICE_LINE_MATH</span>
+                  <p className="text-xs text-gray-300">Quantity * Unit Price == Line Total (within $0.05 tolerance)</p>
+                </div>
+                <div className="p-3 rounded-xl bg-slate-950 border border-white/10">
+                  <span className="font-mono text-cyan-400 text-xs">INVOICE_GRAND_RECONCILIATION</span>
+                  <p className="text-xs text-gray-300">Subtotal + Total Tax + Shipping + Rounding == Grand Total</p>
+                </div>
+                <div className="p-3 rounded-xl bg-slate-950 border border-white/10">
+                  <span className="font-mono text-emerald-400 text-xs">BALANCE_SHEET_ACCOUNTING_EQUALITY</span>
+                  <p className="text-xs text-gray-300">Total Assets (Year T) == Total Liabilities & Equity (Year T)</p>
+                </div>
+                <div className="p-3 rounded-xl bg-slate-950 border border-white/10">
+                  <span className="font-mono text-purple-400 text-xs">CASH_FLOW_RECONCILIATION</span>
+                  <p className="text-xs text-gray-300">Ending Cash == Opening Cash + Net Increase in Cash</p>
+                </div>
+              </div>
             </div>
           </div>
         )}
